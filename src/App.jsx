@@ -1,6 +1,8 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./components/Home";
 import Login from "./components/Login";
+import News from "./components/News";
+import ProtectedNavbar from "./components/ProtectedNavbar";
 import AuthProvider from "./context/AuthContext";
 
 function App() {
@@ -8,8 +10,12 @@ function App() {
     <BrowserRouter>
       <AuthProvider>
         <Routes>
-          <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
+
+          <Route element={<ProtectedNavbar />}>
+            <Route path="/" element={<Home />} />
+            <Route path="/news" element={<News />} />
+          </Route>
         </Routes>
       </AuthProvider>
     </BrowserRouter>

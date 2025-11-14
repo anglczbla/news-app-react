@@ -1,10 +1,10 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 
 const Login = () => {
   const navigate = useNavigate();
-  const { login, logout } = useContext(AuthContext);
+  const { login, admin } = useContext(AuthContext);
   const [formLogin, setFormLogin] = useState({
     email: "",
     password: "",
@@ -25,6 +25,14 @@ const Login = () => {
       alert("sukses");
     }
   };
+
+  useEffect(() => {
+    if (admin) {
+      navigate("/");
+    } else {
+      navigate("/login");
+    }
+  }, [admin]);
 
   return (
     <div>

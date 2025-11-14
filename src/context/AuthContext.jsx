@@ -14,6 +14,7 @@ const AuthProvider = ({ children }) => {
         role: "admin",
       };
       localStorage.setItem("admin", JSON.stringify(dataAdmin));
+      setAdmin(dataAdmin);
       return true;
     }
     return false;
