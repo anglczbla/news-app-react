@@ -1,16 +1,9 @@
-import { useState } from "react";
+import { useContext } from "react";
 import { useSearchParams } from "react-router-dom";
+import { NewsContext } from "../context/NewsContext";
 
 const FavoriteNews = () => {
-  const [favNews, setFavNews] = useState(
-    JSON.parse(localStorage.getItem("favnews"))
-  );
-
-  const deleteNews = (id) => {
-    const deleteFavNews = favNews.filter((news) => news.id !== id);
-    setFavNews(deleteFavNews);
-    localStorage.setItem("favnews", JSON.stringify(deleteFavNews));
-  };
+  const { favNews, deleteFavNews } = useContext(NewsContext);
 
   const [search, setSearch] = useSearchParams();
   const searching = search.get("q") || "";
@@ -37,18 +30,21 @@ const FavoriteNews = () => {
         placeholder="Search Favorite News"
       />
       <h1>Favorite News</h1>
-      {favNews.length == 0 ? (
-        <p>no news</p>
+      {favNews.length === 0 ? (
+        <p>No news in favorites</p>
       ) : (
         <div>
+          <h2>Results ({filterFavNews.length})</h2>
           {filterFavNews.map((item) => (
             <div key={item.id}>
               <ul>
-                <li>ID:{item.id}</li>
+                <li>ID: {item.id}</li>
                 <li>Title: {item.title}</li>
-                <li>Body:{item.body}</li>
+                <li>Body: {item.body}</li>
               </ul>
-              <button onClick={() => deleteNews(item.id)}>Delete News</button>
+              <button onClick={() => deleteFavNews(item.id)}>
+                Delete from Favorites
+              </button>
             </div>
           ))}
         </div>

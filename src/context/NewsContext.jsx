@@ -94,6 +94,12 @@ export const NewsProvider = ({ children }) => {
     }
   };
 
+  const deleteFavNews = (id) => {
+    const deleteFavNewsList = favNews.filter((news) => news.id !== id);
+    setFavNews(deleteFavNewsList);
+    localStorage.setItem("favnews", JSON.stringify(deleteFavNewsList));
+  };
+
   return (
     <NewsContext.Provider
       value={{
@@ -109,6 +115,7 @@ export const NewsProvider = ({ children }) => {
         toggleNews,
         saveEdit,
         favoriteNews,
+        deleteFavNews,
       }}
     >
       {children}
