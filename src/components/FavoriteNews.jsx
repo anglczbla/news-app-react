@@ -5,6 +5,12 @@ const FavoriteNews = () => {
     JSON.parse(localStorage.getItem("favnews"))
   );
 
+  const deleteNews = (id) => {
+    const deleteFavNews = favNews.filter((news) => news.id !== id);
+    setFavNews(deleteFavNews);
+    localStorage.setItem("favnews", JSON.stringify(deleteFavNews));
+  };
+
   return (
     <div>
       <h1>Favorite News</h1>
@@ -15,6 +21,7 @@ const FavoriteNews = () => {
             <li>Title: {item.title}</li>
             <li>Body:{item.body}</li>
           </ul>
+          <button onClick={() => deleteNews(item.id)}>Delete News</button>
         </div>
       ))}
     </div>

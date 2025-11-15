@@ -86,6 +86,8 @@ const News = () => {
       setFavNews(newFavNews);
       alert("success add to favorite");
       localStorage.setItem("favnews", JSON.stringify(newFavNews));
+    } else {
+      alert("news already exist in favorite");
     }
   };
 

@@ -30,8 +30,12 @@ const Login = () => {
   const submitRegist = (e) => {
     e.preventDefault();
     const successRegist = regist({ ...formRegist });
-    alert("berhasil regist");
-    setShowLogin(true);
+    if (successRegist) {
+      alert("berhasil regist");
+      setShowLogin(true);
+    } else {
+      alert("gagal regist, field harus lengkap");
+    }
   };
 
   const submitLogin = (e) => {

@@ -35,10 +35,14 @@ const AuthProvider = ({ children }) => {
 
   const regist = (valueRegist) => {
     const { email, password, username } = valueRegist;
-    if (!email || !password || !username)
-      return alert("Email dan Password wajib diisi");
-    localStorage.setItem("user", JSON.stringify(valueRegist));
-    setUser(valueRegist);
+    if (!email || !password || !username) {
+      alert("Email dan Password wajib diisi");
+      return false;
+    } else {
+      localStorage.setItem("user", JSON.stringify(valueRegist));
+      setUser(valueRegist);
+      return true;
+    }
   };
 
   return (
