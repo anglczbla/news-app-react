@@ -14,6 +14,7 @@ const Login = () => {
     password: "",
     username: "",
   });
+  const [showLogin, setShowLogin] = useState(null);
   console.log("isi form login", formLogin);
 
   const handleLogin = (e) => {
@@ -30,7 +31,7 @@ const Login = () => {
     e.preventDefault();
     const successRegist = regist({ ...formRegist });
     alert("berhasil regist");
-    navigate("/login");
+    setShowLogin(true);
   };
 
   const submitLogin = (e) => {
@@ -55,7 +56,7 @@ const Login = () => {
 
   return (
     <div>
-      {!user ? (
+      {!user && !showLogin ? (
         <div>
           <p>Regist Form</p>
           <form onSubmit={submitRegist}>
@@ -84,6 +85,7 @@ const Login = () => {
               onChange={handleRegist}
             />
             <button type="submit">Regist</button>
+            <button onClick={() => setShowLogin(true)}>Already Regist?</button>
           </form>
         </div>
       ) : (
@@ -106,6 +108,7 @@ const Login = () => {
               onChange={handleLogin}
             />
             <button type="submit">Login</button>
+            <button onClick={() => setShowLogin(false)}>Need to Regist?</button>
           </form>
         </div>
       )}
