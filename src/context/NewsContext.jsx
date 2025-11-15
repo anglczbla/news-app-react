@@ -3,7 +3,7 @@ import { createContext, useEffect, useState } from "react";
 export const NewsContext = createContext();
 
 export const NewsProvider = ({ children }) => {
-  const [news, setNews] = useState([]);
+  const [news, setNews] = useState(JSON.parse(localStorage.getItem("news")));
   const [favNews, setFavNews] = useState([]);
   const [formNews, setFormNews] = useState({
     id: "",
