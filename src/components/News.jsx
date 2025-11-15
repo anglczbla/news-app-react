@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 
 const News = () => {
@@ -19,13 +19,13 @@ const News = () => {
   });
   const [showToggleNews, setShowToggleNews] = useState(null);
 
-  // useEffect(() => {
-  //   const dataNews = localStorage.getItem("news");
-  //   if (dataNews) {
-  //     const data = JSON.parse(dataNews);
-  //     setNews(Array.isArray(data) ? data : []);
-  //   }
-  // }, []);
+  useEffect(() => {
+    const dataNews = localStorage.getItem("news");
+    if (dataNews) {
+      const data = JSON.parse(dataNews);
+      setNews(Array.isArray(data) ? data : []);
+    }
+  }, []);
 
   const handleChangeNews = (e) => {
     const { name, value } = e.target;
@@ -119,7 +119,7 @@ const News = () => {
               </ul>
               <button onClick={() => deleteNews(item.id)}>Delete news</button>
               <button onClick={() => toggleNews(item, index)}>Edit</button>
-              {showToggleNews == index ? (
+              {showToggleNews === index ? (
                 <div>
                   <form>
                     <label htmlFor="id">ID</label>
