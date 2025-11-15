@@ -51,12 +51,10 @@ const Login = () => {
   };
 
   useEffect(() => {
-    if (admin) {
+    if (admin || user) {
       navigate("/");
-    } else {
-      navigate("/login");
     }
-  }, [admin]);
+  }, [admin, user, navigate]);
 
   return (
     <div>

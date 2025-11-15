@@ -19,8 +19,12 @@ const AuthProvider = ({ children }) => {
       return true;
     } else {
       const dataUser = JSON.parse(localStorage.getItem("user"));
-      if (dataUser.email === email && dataUser === password) {
+      if (dataUser.email === email && dataUser.password === password) {
         navigate("/");
+        setUser(dataUser);
+        return true;
+      } else {
+        return false;
       }
     }
   };
