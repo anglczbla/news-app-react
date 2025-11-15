@@ -1,5 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Dashboard from "./components/Dashboard";
+import FavoriteNews from "./components/FavoriteNews";
 import Home from "./components/Home";
 import Login from "./components/Login";
 import News from "./components/News";
@@ -17,6 +18,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/news" element={<News />} />
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/favoriteNews" element={<FavoriteNews />} />
           </Route>
         </Routes>
       </AuthProvider>

@@ -10,6 +10,7 @@ const News = () => {
   });
 
   const [news, setNews] = useState([]);
+  const [favNews, setFavNews] = useState([]);
   console.log("isi news", news);
 
   const [editNews, setEditNews] = useState({
@@ -76,6 +77,19 @@ const News = () => {
     localStorage.setItem("news", JSON.stringify(newNewsEdit));
     setShowToggleNews(null);
   };
+
+  const favoriteNews = (item) => {
+    const isExist = favNews.find((news) => news.id === item.id);
+
+    if (!isExist) {
+      const newFavNews = [...favNews, item];
+      setFavNews(newFavNews);
+      alert("success add to favorite");
+      localStorage.setItem("favnews", JSON.stringify(newFavNews));
+    }
+  };
+
+  console.log("isi favNews", favNews);
 
   return (
     <div>
@@ -165,6 +179,9 @@ const News = () => {
                 <li>Title: {item.title}</li>
                 <li>Body:{item.body}</li>
               </ul>
+              <button onClick={() => favoriteNews(item)}>
+                Add to Favorites
+              </button>
             </div>
           ))}
         </div>
