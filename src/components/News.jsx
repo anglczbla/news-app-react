@@ -43,7 +43,6 @@ const News = () => {
       setNews(Array.isArray(data) ? data : []);
     }
 
-    // Load favNews dari localStorage
     const dataFavNews = localStorage.getItem("favnews");
     if (dataFavNews) {
       const data = JSON.parse(dataFavNews);
