@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 
 const News = () => {
@@ -11,7 +12,22 @@ const News = () => {
 
   const [news, setNews] = useState([]);
   const [favNews, setFavNews] = useState([]);
+  const [search, setSearch] = useSearchParams();
+
+  const searching = search.get("q") || "";
+
+  const handleSearch = (e) => {
+    setSearch({
+      q: e.target.value,
+    });
+  };
   console.log("isi news", news);
+
+  const filterNews = searching
+    ? news.filter((findNews) =>
+        findNews.title.toLowerCase().includes(searching.toLowerCase())
+      )
+    : news;
 
   const [editNews, setEditNews] = useState({
     id: "",
@@ -25,6 +41,13 @@ const News = () => {
     if (dataNews) {
       const data = JSON.parse(dataNews);
       setNews(Array.isArray(data) ? data : []);
+    }
+
+    // Load favNews dari localStorage
+    const dataFavNews = localStorage.getItem("favnews");
+    if (dataFavNews) {
+      const data = JSON.parse(dataFavNews);
+      setFavNews(Array.isArray(data) ? data : []);
     }
   }, []);
 
@@ -126,7 +149,15 @@ const News = () => {
           </form>
 
           <h1>List News</h1>
-          {news.map((item, index) => (
+          <input
+            type="text"
+            name="search"
+            value={searching}
+            onChange={handleSearch}
+            placeholder="Search News"
+          />
+          <h1>Hasil Search ({filterNews.length} results)</h1>
+          {filterNews.map((item, index) => (
             <div key={item.id}>
               <ul>
                 <li>ID: {item.id}</li>
@@ -173,8 +204,15 @@ const News = () => {
         </div>
       ) : (
         <div>
+          <input
+            type="text"
+            name="search"
+            value={searching}
+            onChange={handleSearch}
+            placeholder="Search News"
+          />
           <h1>List News</h1>
-          {news.map((item, index) => (
+          {filterNews.map((item, index) => (
             <div key={item.id}>
               <ul>
                 <li>ID: {item.id}</li>
