@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { AuthContext } from "../context/AuthContext";
 
 const News = () => {
+  const { user, admin } = useContext(AuthContext);
   const [formNews, setFormNews] = useState({
     id: "",
     title: "",
@@ -77,79 +79,96 @@ const News = () => {
 
   return (
     <div>
-      <form onSubmit={addNews}>
-        <label htmlFor="id"></label>
-        <input
-          type="text"
-          name="id"
-          value={formNews.id}
-          placeholder="Masukan id news"
-          onChange={handleChangeNews}
-        />
-        <label htmlFor="title"></label>
-        <input
-          type="text"
-          name="title"
-          value={formNews.title}
-          placeholder="Masukan title news"
-          onChange={handleChangeNews}
-        />
-        <label htmlFor="body"></label>
-        <input
-          type="text"
-          name="body"
-          value={formNews.body}
-          placeholder="Masukan body news"
-          onChange={handleChangeNews}
-        />
-        <button type="submit">Add News</button>
-      </form>
+      {admin ? (
+        <div>
+          <form onSubmit={addNews}>
+            <label htmlFor="id"></label>
+            <input
+              type="text"
+              name="id"
+              value={formNews.id}
+              placeholder="Masukan id news"
+              onChange={handleChangeNews}
+            />
+            <label htmlFor="title"></label>
+            <input
+              type="text"
+              name="title"
+              value={formNews.title}
+              placeholder="Masukan title news"
+              onChange={handleChangeNews}
+            />
+            <label htmlFor="body"></label>
+            <input
+              type="text"
+              name="body"
+              value={formNews.body}
+              placeholder="Masukan body news"
+              onChange={handleChangeNews}
+            />
+            <button type="submit">Add News</button>
+          </form>
 
-      <h1>List News</h1>
-      {news.map((item, index) => (
-        <div key={item.id}>
-          <ul>
-            <li>ID: {item.id}</li>
-            <li>Title: {item.title}</li>
-            <li>Body:{item.body}</li>
-          </ul>
-          <button onClick={() => deleteNews(item.id)}>Delete news</button>
-          <button onClick={() => toggleNews(item, index)}>Edit</button>
-          {showToggleNews == index ? (
-            <div>
-              <form>
-                <label htmlFor="id">ID</label>
-                <input
-                  type="text"
-                  name="id"
-                  value={editNews.id}
-                  placeholder="Input ID Baru"
-                  onChange={handleChangeEditNews}
-                />
-                <label htmlFor="title">Title</label>
-                <input
-                  type="text"
-                  name="title"
-                  value={editNews.title}
-                  placeholder="Input Title Baru"
-                  onChange={handleChangeEditNews}
-                />
-                <label htmlFor="body">Body</label>
-                <input
-                  type="text"
-                  name="body"
-                  value={editNews.body}
-                  placeholder="Input Body Baru"
-                  onChange={handleChangeEditNews}
-                />
-              </form>
-              <button onClick={() => saveEdit(item, editNews)}>
-                Save Edit
-              </button>
+          <h1>List News</h1>
+          {news.map((item, index) => (
+            <div key={item.id}>
+              <ul>
+                <li>ID: {item.id}</li>
+                <li>Title: {item.title}</li>
+                <li>Body:{item.body}</li>
+              </ul>
+              <button onClick={() => deleteNews(item.id)}>Delete news</button>
+              <button onClick={() => toggleNews(item, index)}>Edit</button>
+              {showToggleNews == index ? (
+                <div>
+                  <form>
+                    <label htmlFor="id">ID</label>
+                    <input
+                      type="text"
+                      name="id"
+                      value={editNews.id}
+                      placeholder="Input ID Baru"
+                      onChange={handleChangeEditNews}
+                    />
+                    <label htmlFor="title">Title</label>
+                    <input
+                      type="text"
+                      name="title"
+                      value={editNews.title}
+                      placeholder="Input Title Baru"
+                      onChange={handleChangeEditNews}
+                    />
+                    <label htmlFor="body">Body</label>
+                    <input
+                      type="text"
+                      name="body"
+                      value={editNews.body}
+                      placeholder="Input Body Baru"
+                      onChange={handleChangeEditNews}
+                    />
+                  </form>
+                  <button onClick={() => saveEdit(item, editNews)}>
+                    Save Edit
+                  </button>
+                </div>
+              ) : null}
             </div>
-          ) : null}
+          ))}
         </div>
-      ))}
+      ) : (
+        <div>
+          <h1>List News</h1>
+          {news.map((item, index) => (
+            <div key={item.id}>
+              <ul>
+                <li>ID: {item.id}</li>
+                <li>Title: {item.title}</li>
+                <li>Body:{item.body}</li>
+              </ul>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
