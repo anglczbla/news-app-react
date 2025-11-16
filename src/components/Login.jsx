@@ -4,7 +4,7 @@ import { AuthContext } from "../context/AuthContext";
 
 const Login = () => {
   const navigate = useNavigate();
-  const { login, admin, regist, user } = useContext(AuthContext);
+  const { login, regist } = useContext(AuthContext);
   const [formLogin, setFormLogin] = useState({
     email: "",
     password: "",
@@ -14,7 +14,7 @@ const Login = () => {
     password: "",
     username: "",
   });
-  const [showLogin, setShowLogin] = useState(null);
+  const [showLogin, setShowLogin] = useState(false);
   console.log("isi form login", formLogin);
 
   const handleLogin = (e) => {
@@ -60,7 +60,7 @@ const Login = () => {
 
   return (
     <div>
-      {!user && !showLogin ? (
+      {!showLogin ? (
         <div>
           <p>Regist Form</p>
           <form onSubmit={submitRegist}>
@@ -89,7 +89,9 @@ const Login = () => {
               onChange={handleRegist}
             />
             <button type="submit">Regist</button>
-            <button onClick={() => setShowLogin(true)}>Already Regist?</button>
+            <button type="button" onClick={() => setShowLogin(true)}>
+              Already Regist?
+            </button>
           </form>
         </div>
       ) : (
@@ -112,7 +114,9 @@ const Login = () => {
               onChange={handleLogin}
             />
             <button type="submit">Login</button>
-            <button onClick={() => setShowLogin(false)}>Need to Regist?</button>
+            <button type="button" onClick={() => setShowLogin(false)}>
+              Need to Regist?
+            </button>
           </form>
         </div>
       )}

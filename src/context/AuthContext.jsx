@@ -24,7 +24,7 @@ const AuthProvider = ({ children }) => {
       };
       localStorage.setItem("admin", JSON.stringify(dataAdmin));
       localStorage.setItem("currentUser", JSON.stringify(adminData));
-
+      setCurrentUser(adminData);
       setAdmin(dataAdmin);
       return true;
     } else {
@@ -35,6 +35,7 @@ const AuthProvider = ({ children }) => {
           role: "user",
         };
         localStorage.setItem("currentUser", JSON.stringify(userData));
+        setCurrentUser(userData);
         setUser(dataUser);
         return true;
       } else {
@@ -44,13 +45,8 @@ const AuthProvider = ({ children }) => {
   };
 
   const logout = () => {
-    if (currentUser.role === "admin") {
-      localStorage.removeItem("admin");
-      setAdmin(null);
-    } else {
-      localStorage.removeItem("user");
-      setUser(null);
-    }
+    localStorage.removeItem("currentUser");
+    setCurrentUser(null);
     navigate("/login");
   };
 
@@ -68,7 +64,9 @@ const AuthProvider = ({ children }) => {
 
   return (
     <div>
-      <AuthContext.Provider value={{ login, logout, admin, regist, user }}>
+      <AuthContext.Provider
+        value={{ login, logout, admin, regist, user, currentUser }}
+      >
         {children}
       </AuthContext.Provider>
     </div>
