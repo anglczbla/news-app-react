@@ -6,6 +6,10 @@ export const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
   const [admin, setAdmin] = useState(localStorage.getItem("admin"));
   const [user, setUser] = useState(localStorage.getItem("user"));
+  const [currentUser, setCurrentUser] = useState(
+    JSON.parse(localStorage.getItem("currentUser"))
+  );
+
   const navigate = useNavigate();
   const login = (email, password) => {
     if (email === "angel@gmail.com" && password === "123") {
@@ -14,13 +18,23 @@ const AuthProvider = ({ children }) => {
         password,
         role: "admin",
       };
+      const adminData = {
+        email: email,
+        role: "admin",
+      };
       localStorage.setItem("admin", JSON.stringify(dataAdmin));
+      localStorage.setItem("currentUser", JSON.stringify(adminData));
+
       setAdmin(dataAdmin);
       return true;
     } else {
       const dataUser = JSON.parse(localStorage.getItem("user"));
       if (dataUser.email === email && dataUser.password === password) {
-        navigate("/");
+        const userData = {
+          email: dataUser.email,
+          role: "user",
+        };
+        localStorage.setItem("currentUser", JSON.stringify(userData));
         setUser(dataUser);
         return true;
       } else {
@@ -30,10 +44,13 @@ const AuthProvider = ({ children }) => {
   };
 
   const logout = () => {
-    localStorage.removeItem("admin");
-    localStorage.removeItem("user");
-    setAdmin(null);
-    setUser(null);
+    if (currentUser.role === "admin") {
+      localStorage.removeItem("admin");
+      setAdmin(null);
+    } else {
+      localStorage.removeItem("user");
+      setUser(null);
+    }
     navigate("/login");
   };
 

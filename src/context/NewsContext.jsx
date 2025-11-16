@@ -3,7 +3,9 @@ import { createContext, useEffect, useState } from "react";
 export const NewsContext = createContext();
 
 export const NewsProvider = ({ children }) => {
-  const [news, setNews] = useState(JSON.parse(localStorage.getItem("news")));
+  const [news, setNews] = useState(
+    JSON.parse(localStorage.getItem("news") || "[]")
+  );
   const [favNews, setFavNews] = useState([]);
   const [formNews, setFormNews] = useState({
     id: "",
@@ -89,8 +91,16 @@ export const NewsProvider = ({ children }) => {
       setFavNews(newFavNews);
       alert("success add to favorite");
       localStorage.setItem("favnews", JSON.stringify(newFavNews));
+    }
+  };
+
+  const alreadyFavorite = (id) => {
+    const isExist = favNews.find((news) => news.id === id);
+
+    if (isExist) {
+      return true;
     } else {
-      alert("news already exist in favorite");
+      return false;
     }
   };
 
@@ -116,6 +126,7 @@ export const NewsProvider = ({ children }) => {
         saveEdit,
         favoriteNews,
         deleteFavNews,
+        alreadyFavorite,
       }}
     >
       {children}

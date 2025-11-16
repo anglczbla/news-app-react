@@ -3,12 +3,11 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 
 const Navbar = () => {
-  const { logout, user, admin } = useContext(AuthContext);
+  const { logout, user } = useContext(AuthContext);
   return (
     <div>
       {user ? (
         <div>
-          <Link to="/news">News</Link>
           <Link to="/dashboard">Dashboard</Link>
           <Link to="/favoriteNews">Favorite</Link>
           <button onClick={logout}>Logout</button>

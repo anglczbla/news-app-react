@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 
@@ -46,15 +46,17 @@ const Login = () => {
       navigate("/");
       alert("sukses");
     } else {
-      navigate("/dashboard");
+      alert("wrong email or password");
     }
   };
 
-  useEffect(() => {
-    if (admin || user) {
-      navigate("/");
-    }
-  }, [admin, user, navigate]);
+  // useEffect(() => {
+  //   if (admin) {
+  //     navigate("/");
+  //   } else if (user) {
+  //     navigate("/dashboard");
+  //   }
+  // }, [admin, user, navigate]);
 
   return (
     <div>

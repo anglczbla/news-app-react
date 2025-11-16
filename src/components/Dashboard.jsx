@@ -1,23 +1,59 @@
 import { useContext } from "react";
-import { Link } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { NewsContext } from "../context/NewsContext";
 const Dashboard = () => {
-  const { news } = useContext(NewsContext);
+  const { news, favoriteNews, alreadyFavorite, deleteFavNews } =
+    useContext(NewsContext);
   console.log("isi news", news);
+  const [search, setSearch] = useSearchParams();
+  const searching = search.get("q") || "";
+
+  const handleSearch = (e) => {
+    setSearch({
+      q: e.target.value,
+    });
+  };
+
+  const filterNews = searching
+    ? news.filter((findNews) =>
+        findNews.title.toLowerCase().includes(searching.toLowerCase())
+      )
+    : news;
 
   return (
     <div>
       <h1>Featured News</h1>
-      {news.map((item) => (
-        <div key={item.id}>
-          <ul>
-            <li>ID: {item.id}</li>
-            <li>Title: {item.title}</li>
-            <li>Body{item.body}</li>
-          </ul>
-        </div>
-      ))}
-      <Link to="/news">See All News</Link>
+
+      <div>
+        <input
+          type="text"
+          name="search"
+          value={searching}
+          onChange={handleSearch}
+          placeholder="Search News"
+        />
+        <h1>List News</h1>
+        {filterNews !== null
+          ? filterNews.map((item, index) => (
+              <div key={item.id}>
+                <ul>
+                  <li>ID: {item.id}</li>
+                  <li>Title: {item.title}</li>
+                  <li>Body:{item.body}</li>
+                </ul>
+                {alreadyFavorite(item.id) ? (
+                  <button onClick={() => deleteFavNews(item.id)}>
+                    Delete Favorite
+                  </button>
+                ) : (
+                  <button onClick={() => favoriteNews(item)}>
+                    Add to Favorites
+                  </button>
+                )}
+              </div>
+            ))
+          : null}
+      </div>
     </div>
   );
 };
