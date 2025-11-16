@@ -1,9 +1,20 @@
-import { useContext } from "react";
-import { Link } from "react-router-dom";
+import { useContext, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 
 const Navbar = () => {
   const { logout, currentUser } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (currentUser == null) {
+      navigate("/login");
+    }
+  }, [currentUser]);
+
+  if (!currentUser) {
+    return null;
+  }
 
   return (
     <div>

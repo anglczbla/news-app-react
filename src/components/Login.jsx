@@ -1,10 +1,10 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 
 const Login = () => {
   const navigate = useNavigate();
-  const { login, regist } = useContext(AuthContext);
+  const { login, regist, currentUser } = useContext(AuthContext);
   const [formLogin, setFormLogin] = useState({
     email: "",
     password: "",
@@ -16,6 +16,16 @@ const Login = () => {
   });
   const [showLogin, setShowLogin] = useState(false);
   console.log("isi form login", formLogin);
+
+  useEffect(() => {
+    if (currentUser !== null) {
+      if (currentUser.role === "admin") {
+        navigate("/");
+      } else if (currentUser.role === "user") {
+        navigate("/dashboard");
+      }
+    }
+  }, [currentUser, navigate]);
 
   const handleLogin = (e) => {
     const { name, value } = e.target;
@@ -43,20 +53,11 @@ const Login = () => {
     const success = login(formLogin.email, formLogin.password);
 
     if (success) {
-      navigate("/");
       alert("sukses");
     } else {
       alert("wrong email or password");
     }
   };
-
-  // useEffect(() => {
-  //   if (admin) {
-  //     navigate("/");
-  //   } else if (user) {
-  //     navigate("/dashboard");
-  //   }
-  // }, [admin, user, navigate]);
 
   return (
     <div>
