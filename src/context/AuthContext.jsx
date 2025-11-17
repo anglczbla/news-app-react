@@ -4,39 +4,37 @@ import { useNavigate } from "react-router-dom";
 export const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
-  const [admin, setAdmin] = useState(localStorage.getItem("admin"));
-  const [user, setUser] = useState(localStorage.getItem("user"));
+  const [admin, setAdmin] = useState(JSON.parse(localStorage.getItem("admin")));
+  const [user, setUser] = useState(
+    JSON.parse(localStorage.getItem("user")) || []
+  );
+  console.log("isi data user", user);
   const [currentUser, setCurrentUser] = useState(
     JSON.parse(localStorage.getItem("currentUser"))
   );
-
   const navigate = useNavigate();
+
   const login = (email, password) => {
     if (email === "angel@gmail.com" && password === "123") {
-      const dataAdmin = {
-        email,
-        password,
-        role: "admin",
-      };
       const adminData = {
         email: email,
         role: "admin",
       };
-      localStorage.setItem("admin", JSON.stringify(dataAdmin));
       localStorage.setItem("currentUser", JSON.stringify(adminData));
       setCurrentUser(adminData);
-      setAdmin(dataAdmin);
       return true;
     } else {
-      const dataUser = JSON.parse(localStorage.getItem("user"));
-      if (dataUser.email === email && dataUser.password === password) {
+      const findUser = user.find(
+        (user) => user.email === email && user.password === password
+      );
+
+      if (findUser) {
         const userData = {
-          email: dataUser.email,
+          email: findUser.email,
           role: "user",
         };
         localStorage.setItem("currentUser", JSON.stringify(userData));
         setCurrentUser(userData);
-        setUser(dataUser);
         return true;
       } else {
         return false;
@@ -51,13 +49,16 @@ const AuthProvider = ({ children }) => {
   };
 
   const regist = (valueRegist) => {
+    console.log("isi value regist", valueRegist);
+
     const { email, password, username } = valueRegist;
     if (!email || !password || !username) {
       alert("Email dan Password wajib diisi");
       return false;
     } else {
-      localStorage.setItem("user", JSON.stringify(valueRegist));
-      setUser(valueRegist);
+      const newUserList = [...user, valueRegist];
+      localStorage.setItem("user", JSON.stringify(newUserList));
+      setUser(newUserList);
       return true;
     }
   };

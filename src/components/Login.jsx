@@ -9,6 +9,8 @@ const Login = () => {
     email: "",
     password: "",
   });
+  console.log("isi form login", formLogin);
+
   const [formRegist, setFormRegist] = useState({
     email: "",
     password: "",

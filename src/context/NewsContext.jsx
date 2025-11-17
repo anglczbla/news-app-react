@@ -1,8 +1,12 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
+import { AuthContext } from "./AuthContext";
 
 export const NewsContext = createContext();
 
 export const NewsProvider = ({ children }) => {
+  const { currentUser } = useContext(AuthContext);
+  console.log("isi current user", currentUser);
+
   const [news, setNews] = useState(
     JSON.parse(localStorage.getItem("news") || "[]")
   );
