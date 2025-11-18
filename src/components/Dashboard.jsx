@@ -1,9 +1,13 @@
 import { useContext } from "react";
 import { useSearchParams } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 import { NewsContext } from "../context/NewsContext";
 const Dashboard = () => {
   const { news, favoriteNews, alreadyFavorite, deleteFavNews } =
     useContext(NewsContext);
+  const { currentUser } = useContext(AuthContext);
+  console.log("isi current user", currentUser);
+
   console.log("isi news", news);
   const [search, setSearch] = useSearchParams();
   const searching = search.get("q") || "";
@@ -46,7 +50,7 @@ const Dashboard = () => {
                     Delete Favorite
                   </button>
                 ) : (
-                  <button onClick={() => favoriteNews(item)}>
+                  <button onClick={() => favoriteNews(item, currentUser.email)}>
                     Add to Favorites
                   </button>
                 )}

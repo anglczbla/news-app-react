@@ -4,7 +4,7 @@ import { AuthContext } from "../context/AuthContext";
 import { NewsContext } from "../context/NewsContext";
 
 const News = () => {
-  const { admin } = useContext(AuthContext);
+  const { currentUser, user } = useContext(AuthContext);
   const {
     news,
     formNews,
@@ -29,10 +29,10 @@ const News = () => {
   };
 
   useEffect(() => {
-    if (!admin) {
+    if (currentUser.role !== "admin") {
       navigate("/login");
     }
-  }, [admin]);
+  }, [currentUser]);
 
   const filterNews = searching
     ? news.filter((findNews) =>

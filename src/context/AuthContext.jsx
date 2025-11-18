@@ -12,6 +12,8 @@ const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(
     JSON.parse(localStorage.getItem("currentUser"))
   );
+  console.log("current user", currentUser);
+
   const navigate = useNavigate();
 
   const login = (email, password) => {

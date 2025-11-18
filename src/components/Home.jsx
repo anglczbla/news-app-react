@@ -3,14 +3,14 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 
 const Home = () => {
-  const { admin } = useContext(AuthContext);
+  const { currentUser } = useContext(AuthContext);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!admin) {
+    if (currentUser.role !== "admin") {
       navigate("/login");
     }
-  });
+  }, [currentUser]);
 
   return <div>Home</div>;
 };
