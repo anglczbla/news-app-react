@@ -29,7 +29,7 @@ const FavoriteNews = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-pink-50">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-gray-800 mb-2 flex items-center space-x-2">
@@ -48,7 +48,7 @@ const FavoriteNews = () => {
               value={searching}
               onChange={handleFavSearchNews}
               placeholder="Search Favorite News"
-              className="w-full pl-12 pr-4 py-4 border-2 border-gray-300 rounded-xl focus:border-purple-500 focus:outline-none transition-colors shadow-sm"
+              className="w-full pl-12 pr-4 py-4 border-2 border-gray-300 rounded-xl focus:border-blue-500 focus:outline-none transition-colors shadow-sm"
             />
           </div>
         </div>
@@ -72,13 +72,13 @@ const FavoriteNews = () => {
                   key={item.id}
                   className="bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden"
                 >
-                  <div className="bg-gradient-to-r from-purple-500 to-pink-600 h-2"></div>
+                  <div className="bg-gradient-to-r from-blue-500 to-indigo-600 h-2"></div>
                   <div className="p-6">
                     <div className="flex items-start justify-between mb-4">
                       <h3 className="text-xl font-bold text-gray-800 flex-1">
                         {item.title}
                       </h3>
-                      <span className="bg-purple-100 text-purple-800 text-xs font-semibold px-3 py-1 rounded-full">
+                      <span className="bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full">
                         #{item.id}
                       </span>
                     </div>
