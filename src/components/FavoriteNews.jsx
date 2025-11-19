@@ -5,16 +5,21 @@ import { NewsContext } from "../context/NewsContext";
 
 const FavoriteNews = () => {
   const { favNews, deleteFavNews } = useContext(NewsContext);
-  const { user } = useContext(AuthContext);
+  const { currentUser } = useContext(AuthContext);
 
   const [search, setSearch] = useSearchParams();
   const searching = search.get("q") || "";
 
-  const filterFavNews = searching
-    ? favNews.filter((news) =>
-        news.title.toLowerCase().includes(searching.toLowerCase())
-      )
-    : favNews;
+  const findEmail = favNews.find(
+    (news) => news.email == currentUser.email
+  )?.items;
+
+  const filterFavNews =
+    searching != ""
+      ? findEmail.filter((news) =>
+          news.title.toLowerCase().includes(searching.toLowerCase())
+        )
+      : findEmail;
 
   const handleFavSearchNews = (e) => {
     setSearch({
@@ -45,7 +50,7 @@ const FavoriteNews = () => {
                   <li>Title: {item.title}</li>
                   <li>Body: {item.body}</li>
                 </ul>
-                <button onClick={() => deleteFavNews(item.id, user.email)}>
+                <button onClick={() => deleteFavNews(item.id)}>
                   Delete from Favorites
                 </button>
               </div>

@@ -4,7 +4,7 @@ import { AuthContext } from "./AuthContext";
 export const NewsContext = createContext();
 
 export const NewsProvider = ({ children }) => {
-  const { currentUser, user } = useContext(AuthContext);
+  const { currentUser } = useContext(AuthContext);
   console.log("isi current user", currentUser);
 
   const [news, setNews] = useState(
@@ -13,6 +13,8 @@ export const NewsProvider = ({ children }) => {
   const [favNews, setFavNews] = useState(
     JSON.parse(localStorage.getItem("favnews")) || []
   );
+  console.log("isi fav news", favNews);
+
   const [formNews, setFormNews] = useState({
     id: "",
     title: "",
@@ -90,29 +92,49 @@ export const NewsProvider = ({ children }) => {
   };
 
   const favoriteNews = (item, email) => {
-    const userIndex = favNews.findIndex((u) => u.email === email);
+    // user add fav news -> ngebentuk object yg berisi email dan items sbg key, yg dmna
+    // items itu berisi value array of object dari berbagi news yg di favorite user
+    // case 1
+    // user blm pernah add favnews sama sekali -> ngebntuk object berisi email dan items dg value aof
+    // case 2
+    // user sudah perna favorite, mapping object lama dan di tambah dengan news baru
 
-    if (userIndex !== -1) {
-      const sudahAda = favNews[userIndex].items.some((i) => i.id === item.id);
+    // cek dlu udah ada blm isinya
+    // const sudahAda = favNews.find(i => i.id == )
+    // currentUser.email === database favNews (emailnya)
 
-      if (sudahAda) {
-        alert("already in favorites!");
-        return;
-      }
+    const isExistEmail = favNews.find((news) => news.email == email) != null;
+    console.log(isExistEmail);
+    console.log(
+      "testing",
+      favNews.find((news) => news.email == email)
+    );
 
-      const newFavNews = favNews.map((u, index) =>
-        index === userIndex ? { ...u, items: [...u.items, item] } : u
-      );
-
-      setFavNews(newFavNews);
-      localStorage.setItem("favnews", JSON.stringify(newFavNews));
-      alert("success add to favorite!");
+    if (isExistEmail) {
+      // case 2
+      // user sudah perna favorite, mapping object lama dan di tambah dengan news baru
+      const newDataEmail = favNews.map(function (news) {
+        if (news.email == email) {
+          return {
+            ...news,
+            items: [item, ...news.items],
+          };
+        } else {
+          return news;
+        }
+      });
+      setFavNews(newDataEmail);
+      localStorage.setItem("favnews", JSON.stringify(newDataEmail));
     } else {
-      const newFavNews = [...favNews, { email, items: [item] }];
-
-      setFavNews(newFavNews);
-      localStorage.setItem("favnews", JSON.stringify(newFavNews));
-      alert("success add to favorite!");
+      // case 1
+      // user blm pernah add favnews sama sekali -> ngebntuk object berisi email dan items dg value aof
+      const newFavNews = {
+        email: email,
+        items: [item],
+      };
+      const data = [...favNews, newFavNews];
+      setFavNews(data);
+      localStorage.setItem("favnews", JSON.stringify(data));
     }
   };
 
@@ -129,17 +151,16 @@ export const NewsProvider = ({ children }) => {
   const deleteFavNews = (id) => {
     if (!currentUser) return;
 
-    const newFavNews = favNews
-      .map((u) => {
-        if (u.email === currentUser.email) {
-          return {
-            ...u,
-            items: u.items.filter((item) => item.id !== id),
-          };
-        }
+    const newFavNews = favNews.map((u) => {
+      if (u.email === currentUser.email) {
+        return {
+          ...u,
+          items: u.items.filter((item) => item.id !== id),
+        };
+      } else {
         return u;
-      })
-      .filter((u) => u.items.length > 0);
+      }
+    });
 
     setFavNews(newFavNews);
     localStorage.setItem("favnews", JSON.stringify(newFavNews));
