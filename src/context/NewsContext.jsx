@@ -7,9 +7,61 @@ export const NewsProvider = ({ children }) => {
   const { currentUser } = useContext(AuthContext);
   console.log("isi current user", currentUser);
 
-  const [news, setNews] = useState(
-    JSON.parse(localStorage.getItem("news") || "[]")
-  );
+  const dummyNews = [
+    {
+      id: "1",
+      title: "Breaking: AI Technology Revolutionizes Healthcare",
+      body: "Artificial Intelligence is transforming the healthcare industry with unprecedented accuracy in disease diagnosis. Researchers have developed new AI models that can detect early signs of cancer with 95% accuracy, potentially saving millions of lives worldwide.",
+    },
+    {
+      id: "2",
+      title: "Global Climate Summit Reaches Historic Agreement",
+      body: "World leaders gathered at the United Nations Climate Summit have reached a groundbreaking agreement to reduce carbon emissions by 50% by 2030. This historic deal marks a significant step forward in the fight against climate change.",
+    },
+    {
+      id: "3",
+      title: "Tech Giants Announce Revolutionary Quantum Computer",
+      body: "Leading technology companies have unveiled the world's first commercially viable quantum computer. This breakthrough promises to revolutionize fields ranging from cryptography to drug discovery, with processing speeds millions of times faster than traditional computers.",
+    },
+    {
+      id: "4",
+      title: "New Study Reveals Benefits of Mediterranean Diet",
+      body: "A comprehensive 10-year study involving 100,000 participants has confirmed the numerous health benefits of the Mediterranean diet. Researchers found significant reductions in heart disease, diabetes, and cognitive decline among those following this eating pattern.",
+    },
+    {
+      id: "5",
+      title: "Space Exploration: Mission to Mars Successfully Launched",
+      body: "The international space agency has successfully launched a historic mission to Mars, carrying advanced equipment to search for signs of past or present life. The spacecraft is expected to reach the Red Planet in approximately seven months.",
+    },
+    {
+      id: "6",
+      title: "Electric Vehicles Surpass Traditional Cars in Sales",
+      body: "For the first time in automotive history, electric vehicle sales have exceeded those of traditional gasoline-powered cars. This milestone represents a major shift in the transportation industry and signals the acceleration of the green energy transition.",
+    },
+    {
+      id: "7",
+      title: "Education Reform: Digital Learning Shows Promising Results",
+      body: "A nationwide initiative implementing digital learning platforms in schools has shown remarkable improvements in student performance. Early results indicate a 30% increase in engagement and comprehension across all subjects.",
+    },
+    {
+      id: "8",
+      title: "Breakthrough in Renewable Energy Storage Technology",
+      body: "Scientists have developed a revolutionary battery technology that can store renewable energy for up to six months without significant loss. This innovation could solve one of the biggest challenges facing the renewable energy sector.",
+    },
+  ];
+
+  const getInitialNews = () => {
+    const storedNews = localStorage.getItem("news");
+    if (storedNews && storedNews !== "[]") {
+      return JSON.parse(storedNews);
+    } else {
+      // kalau localStorage kosong, pakai dummy data dan simpan ke localStorage
+      localStorage.setItem("news", JSON.stringify(dummyNews));
+      return dummyNews;
+    }
+  };
+
+  const [news, setNews] = useState(getInitialNews());
   const [favNews, setFavNews] = useState(
     JSON.parse(localStorage.getItem("favnews")) || []
   );
