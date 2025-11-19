@@ -54,15 +54,23 @@ const AuthProvider = ({ children }) => {
     console.log("isi value regist", valueRegist);
 
     const { email, password, username } = valueRegist;
-    if (!email || !password || !username) {
-      alert("Email dan Password wajib diisi");
+
+    const isEmailExist = user.some((u) => u.email === email);
+    if (isEmailExist) {
       return false;
-    } else {
-      const newUserList = [...user, valueRegist];
-      localStorage.setItem("user", JSON.stringify(newUserList));
-      setUser(newUserList);
-      return true;
     }
+
+    const newUser = {
+      email,
+      password,
+      username,
+      role: "user",
+    };
+
+    const newUserList = [...user, newUser];
+    localStorage.setItem("user", JSON.stringify(newUserList));
+    setUser(newUserList);
+    return true;
   };
 
   return (

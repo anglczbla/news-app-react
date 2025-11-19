@@ -40,12 +40,26 @@ const Login = () => {
 
   const submitRegist = (e) => {
     e.preventDefault();
+
+    if (
+      !formRegist.email.trim() ||
+      !formRegist.password.trim() ||
+      !formRegist.username.trim()
+    ) {
+      return;
+    }
+
     const successRegist = regist({ ...formRegist });
     if (successRegist) {
-      alert("berhasil regist");
+      alert("Berhasil registrasi!");
+      setFormRegist({
+        email: "",
+        password: "",
+        username: "",
+      });
       setShowLogin(true);
     } else {
-      alert("gagal regist, field harus lengkap");
+      alert("Gagal email sudah terdaftar");
     }
   };
 
