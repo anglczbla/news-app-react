@@ -1,4 +1,4 @@
-import { Heart, HeartOff, Search } from "lucide-react";
+import { ArrowRight, Heart, HeartOff, Search } from "lucide-react";
 import { useContext } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
@@ -54,30 +54,40 @@ const Dashboard = () => {
             {filterNews.map((item, index) => (
               <div
                 key={item.id}
-                className="bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden"
+                className="bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden flex flex-col"
               >
                 <div className="bg-gradient-to-r from-blue-500 to-indigo-600 h-2"></div>
-                <div className="p-6">
+                <div className="p-6 flex flex-col flex-grow">
                   <div className="flex items-start justify-between mb-4">
                     <h3 className="text-xl font-bold text-gray-800 flex-1">
                       {item.title}
                     </h3>
-                    <span className="bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full">
+                    <span className="bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full ml-2">
                       #{item.id}
                     </span>
                   </div>
-                  <p className="text-gray-600 mb-6 line-clamp-3">{item.body}</p>
-                  <Link to={`/dashboard/${item.id}`}>Detail News</Link>
-                  {alreadyFavorite(item.id) ? (
-                    <button
-                      onClick={() => deleteFavNews(item.id)}
-                      className="flex items-center space-x-2 bg-gradient-to-r from-red-500 to-pink-500 text-white px-6 py-3 rounded-lg font-semibold hover:from-red-600 hover:to-pink-600 transition-all duration-200 transform hover:scale-105 w-full justify-center"
+                  <p className="text-gray-600 mb-6 line-clamp-3 flex-grow">
+                    {item.body}
+                  </p>
+
+                  <div className="space-y-3 mt-auto">
+                    <Link
+                      to={`/dashboard/${item.id}`}
+                      className="flex items-center justify-center space-x-2 bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-6 py-3 rounded-lg font-semibold hover:from-blue-600 hover:to-indigo-700 transition-all duration-200 transform hover:scale-105 w-full"
                     >
-                      <HeartOff className="h-5 w-5" />
-                      <span>Delete Favorite</span>
-                    </button>
-                  ) : (
-                    <div>
+                      <span>View Details</span>
+                      <ArrowRight className="h-5 w-5" />
+                    </Link>
+
+                    {alreadyFavorite(item.id) ? (
+                      <button
+                        onClick={() => deleteFavNews(item.id)}
+                        className="flex items-center space-x-2 bg-gradient-to-r from-red-500 to-pink-500 text-white px-6 py-3 rounded-lg font-semibold hover:from-red-600 hover:to-pink-600 transition-all duration-200 transform hover:scale-105 w-full justify-center"
+                      >
+                        <HeartOff className="h-5 w-5" />
+                        <span>Remove Favorite</span>
+                      </button>
+                    ) : (
                       <button
                         onClick={() => favoriteNews(item, currentUser.email)}
                         className="flex items-center space-x-2 bg-gradient-to-r from-pink-500 to-red-500 text-white px-6 py-3 rounded-lg font-semibold hover:from-pink-600 hover:to-red-600 transition-all duration-200 transform hover:scale-105 w-full justify-center"
@@ -85,8 +95,8 @@ const Dashboard = () => {
                         <Heart className="h-5 w-5" />
                         <span>Add to Favorites</span>
                       </button>
-                    </div>
-                  )}
+                    )}
+                  </div>
                 </div>
               </div>
             ))}
