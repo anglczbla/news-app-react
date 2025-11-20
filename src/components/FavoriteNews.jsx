@@ -1,6 +1,6 @@
 import { Search, Star, Trash2 } from "lucide-react";
 import { useContext } from "react";
-import { useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import { NewsContext } from "../context/NewsContext";
 
@@ -92,6 +92,7 @@ const FavoriteNews = () => {
                       <Trash2 className="h-5 w-5" />
                       <span>Delete from Favorites</span>
                     </button>
+                    <Link to={`/favoriteNews/${item.id}`}>Detail News</Link>
                   </div>
                 </div>
               ))}

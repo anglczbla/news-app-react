@@ -1,6 +1,6 @@
 import { Heart, HeartOff, Search } from "lucide-react";
 import { useContext } from "react";
-import { useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import { NewsContext } from "../context/NewsContext";
 
@@ -67,6 +67,7 @@ const Dashboard = () => {
                     </span>
                   </div>
                   <p className="text-gray-600 mb-6 line-clamp-3">{item.body}</p>
+                  <Link to={`/dashboard/${item.id}`}>Detail News</Link>
                   {alreadyFavorite(item.id) ? (
                     <button
                       onClick={() => deleteFavNews(item.id)}
@@ -76,13 +77,15 @@ const Dashboard = () => {
                       <span>Delete Favorite</span>
                     </button>
                   ) : (
-                    <button
-                      onClick={() => favoriteNews(item, currentUser.email)}
-                      className="flex items-center space-x-2 bg-gradient-to-r from-pink-500 to-red-500 text-white px-6 py-3 rounded-lg font-semibold hover:from-pink-600 hover:to-red-600 transition-all duration-200 transform hover:scale-105 w-full justify-center"
-                    >
-                      <Heart className="h-5 w-5" />
-                      <span>Add to Favorites</span>
-                    </button>
+                    <div>
+                      <button
+                        onClick={() => favoriteNews(item, currentUser.email)}
+                        className="flex items-center space-x-2 bg-gradient-to-r from-pink-500 to-red-500 text-white px-6 py-3 rounded-lg font-semibold hover:from-pink-600 hover:to-red-600 transition-all duration-200 transform hover:scale-105 w-full justify-center"
+                      >
+                        <Heart className="h-5 w-5" />
+                        <span>Add to Favorites</span>
+                      </button>
+                    </div>
                   )}
                 </div>
               </div>
